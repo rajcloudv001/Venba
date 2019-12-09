@@ -400,6 +400,7 @@ def process(input):
     if len(seerOutputSend) > 1:
         seerOutputSend = '\n\n' + seerOutputSend
     output = input + inputWithSeerRefined + seerOutputSend + '\n\n' + message
+	print(output)
     return output, sFlag
 
 
@@ -419,3 +420,4 @@ port = int(os.getenv('PORT', 8000))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port, debug=True)
+
