@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC"-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script type="text/javascript" src="./static/jquery-3.4.1.min.js"></script>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <style>
+.center { 
+  height: 200px;
+  position: relative;
+  margin: 0;
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 790px;
+  height: 50px;
+}
+</style>
+
+<body>
+<br/><br/>
+
+<div class="center">
+<h1 align="center"> உங்கள் குறள் வெண்பா சரிபார்க்க !!!</h1>
+<form id="inputForm" name="inputForm">
+<textarea id="input" name="input" rows="10" cols="80" style="font-size: 16px; border: 2px solid gray" required>
+</textarea>
+
+<br/>
+<br/>
+<button type="submit" class="button" id="submit">சரிபார்க்க</button>
+<br/>
+<br/>
+
+
+<textarea id="output" name="output" rows="10" cols="80" style="font-size: 16px; border: 2px solid gray" readonly>
+</textarea>
+</form>
+</div>
+<script type="text/javascript"  src='./static/process.js'></script>
+</body>
+</html>
+
+
