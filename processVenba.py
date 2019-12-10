@@ -387,8 +387,8 @@ def process(input):
             message = 'சீர் 6-7 '
 
             if len(prevLst) == 3 and prevLst[-1] == NER.strip('/') and curLst[0] not in [NER.strip('/'), NERBU.strip('/')]:
-                    message = message + nerEettruErrorMessage
-                    sFlag = False
+                message = message + nerEettruErrorMessage
+                sFlag = False
             elif len(prevLst) == 2:
                 if prevLst[-1] == NIRAI.strip('/') and curLst[0] not in [NER.strip('/'), NERBU.strip('/')]:
                     message = message + niraiEetruErrorMessage
@@ -397,8 +397,6 @@ def process(input):
                     message = message + nerEettruErrorMessage
                     sFlag = False
 
-
-
         if sFlag:
             message = successMessage
 
@@ -406,7 +404,11 @@ def process(input):
         inputWithSeerRefined = '\n\n' + inputWithSeerRefined
     if len(seerOutputSend) > 1:
         seerOutputSend = '\n\n' + seerOutputSend
-    output = input + inputWithSeerRefined + seerOutputSend + '\n\n' + message
+    asaiString = ''
+    if len(asai) > 0:
+        asaiString = ' '.join(asai)
+        asaiString = '\n\n' + asaiString.replace('\n ', '\n')
+    output = input + inputWithSeerRefined + seerOutputSend + asaiString + '\n\n' + message
     print(output)
     return output, sFlag
 
