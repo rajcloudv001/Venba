@@ -155,18 +155,7 @@ def process(input):
     SPACE = " "
     NEWLINE = "\n"
     unicode = []
-    # for char in input.strip():
-    #     uChar = str(char.encode("unicode_escape"))
-    #     if uChar == spaceByte:
-    #         if len(unicode) > 1 and unicode[-1] == SPACE:
-    #             pass
-    #         else:
-    #             unicode.append(SPACE)
-    #     elif uChar == newlineByte:
-    #         unicode.append(NEWLINE)
-    #     else:
-    #         if uChar[-5:-1] in ALLCHAR:
-    #             unicode.append(uChar[-5:-1])
+
     for char in input.strip():
         uChar = str(char.encode("unicode_escape"))
         if uChar in [spaceByte, newlineByte]:
