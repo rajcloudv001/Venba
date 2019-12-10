@@ -90,10 +90,10 @@ def process(input):
     PIRAPPU = "பிறப்பு"
 
     invalid = '**தவறான சீர்**'
-    successMessage = 'சீர் அசை சரியாக அமைந்துள்ள குறள் வெண்பா'
+    successMessage = 'சீர் அசை சரியாக அமைந்துள்ள '
     failureMessage = 'அசை தவறாக உள்ளது.  அசை திருத்தி மீண்டும் சரிபார்க்கவும்'
     eetruSeerMessage = 'ஈற்றடி ஈற்றுச் சீர் ஓரசைச் சீர் வரவேண்டும். திருத்தி மீண்டும் சரிபார்க்கவும்'
-    yeluSeerIssueMessage = 'முதலடி நான்கு சீர்கள், இரண்டாம் அடி மூன்று சீர்கள் கொண்டதாக இருக்க வேண்டும்'
+    yeluSeerIssueMessage = 'ஈற்றடி முச்சீரும் ஏனைய அடிகள் நான்கு சீர்கள் கொண்டதாக இருக்க வேண்டும்'
     kanichcheerErrorMEssage = 'கனிச்சீர் வரக்கூடாது. திருத்தி மீண்டும் சரிபார்க்கவும்'
     niraiNiraiErrorMessage = '***/***/நேர் நேர்/***[/***] என்று அமைய வேண்டும். திருத்தி மீண்டும் சரிபார்க்கவும்'
     nerNiraiErrorMessage = '***/நேர் நிரை/***[/***] என்று அமைய வேண்டும். திருத்தி மீண்டும் சரிபார்க்கவும்'
@@ -155,12 +155,25 @@ def process(input):
     SPACE = " "
     NEWLINE = "\n"
     unicode = []
+    # for char in input.strip():
+    #     uChar = str(char.encode("unicode_escape"))
+    #     if uChar == spaceByte:
+    #         if len(unicode) > 1 and unicode[-1] == SPACE:
+    #             pass
+    #         else:
+    #             unicode.append(SPACE)
+    #     elif uChar == newlineByte:
+    #         unicode.append(NEWLINE)
+    #     else:
+    #         if uChar[-5:-1] in ALLCHAR:
+    #             unicode.append(uChar[-5:-1])
     for char in input.strip():
         uChar = str(char.encode("unicode_escape"))
-        if uChar == spaceByte:
-            unicode.append(SPACE)
-        elif uChar == newlineByte:
-            unicode.append(NEWLINE)
+        if uChar in [spaceByte, newlineByte]:
+            if len(unicode) > 1 and unicode[-1] == SPACE:
+                pass
+            else:
+                unicode.append(SPACE)
         else:
             if uChar[-5:-1] in ALLCHAR:
                 unicode.append(uChar[-5:-1])
@@ -248,9 +261,13 @@ def process(input):
                                                 inputWithSeer.insert(-2, '/')
             i += 1
     inputWithSeerRefined = []
+    cntSpace = 1
     for i in inputWithSeer:
         if len(i) < 4:
-            inputWithSeerRefined.append(i)
+            if cntSpace < 4:
+                inputWithSeerRefined.append(i)
+            else:
+                inputWithSeerRefined.append('\n')
         else:
             inputWithSeerRefined.append(('\\u' + i).encode().decode("unicode_escape"))
     inputWithSeerRefined = ''.join(inputWithSeerRefined)
@@ -339,10 +356,11 @@ def process(input):
             seerOutputListTemp.append(i)
 
     tempSeerOutputString = (seerOutputString.replace('\n', ' ').replace('  ', ' ').replace('  ', ' ')).strip()
-
+    seerCount = tempSeerOutputString.count(' ') + 1
+    print(seerOutputListTemp)
     if invalid in asai:
         message = seerOutputListTemp[asai.index(invalid)] + ' ' + invalid + ' ' + failureMessage
-    elif tempSeerOutputString.count(' ') + 1 != 7:
+    elif seerCount not in [7, 11]:
         message = yeluSeerIssueMessage
     elif asai[-1] not in EETRUSEER:
         message = eetruSeerMessage
@@ -358,7 +376,7 @@ def process(input):
                     break
             aIdx += 1
         if sFlag:
-            if '\n' in seerOutputListTemp:
+            while seerOutputListTemp.count('\n'):
                 seerOutputListTemp.remove('\n')
             lenFn4 = len(seerOutputListTemp)
             i = 0
@@ -384,7 +402,7 @@ def process(input):
         if sFlag:
             curLst = seerOutputListTemp[-1].strip('/').split('/')
             prevLst = seerOutputListTemp[-2].strip('/').split('/')
-            message = 'சீர் 6-7 '
+            message = 'சீர் ' + str(seerCount-1) + str(seerCount)
 
             if len(prevLst) == 3 and prevLst[-1] == NER.strip('/') and curLst[0] not in [NER.strip('/'), NERBU.strip('/')]:
                 message = message + nerEettruErrorMessage
@@ -398,17 +416,54 @@ def process(input):
                     sFlag = False
 
         if sFlag:
-            message = successMessage
+            if seerCount == 7:
+                message = successMessage + 'குறள் வெண்பா'
+            elif seerCount == 11:
+                message = successMessage + 'சிந்தியல் வெண்பா'
 
     if len(inputWithSeerRefined) > 1:
-        inputWithSeerRefined = '\n\n' + inputWithSeerRefined
+        inputWithSeerRefined.replace('\n', ' ')
+        inputWithSeerRefined.strip()
+        tCnt = 0
+        spaceCnt = 0
+        inputWithSeerRefined = [x for x in inputWithSeerRefined]
+        for i in inputWithSeerRefined:
+            if i == ' ':
+                spaceCnt += 1
+                if spaceCnt % 4 == 0 :
+                    inputWithSeerRefined[tCnt] = '\n'
+            tCnt += 1
+        inputWithSeerRefined = '\n\n' + ''.join(inputWithSeerRefined)
     if len(seerOutputSend) > 1:
-        seerOutputSend = '\n\n' + seerOutputSend
+        seerOutputSend.replace('\n', ' ')
+        seerOutputSend.strip()
+        tCnt = 0
+        spaceCnt = 0
+        seerOutputSend = [x for x in seerOutputSend]
+        for i in seerOutputSend:
+            if i == ' ':
+                spaceCnt += 1
+                if spaceCnt % 4 == 0:
+                    seerOutputSend[tCnt] = '\n'
+            tCnt += 1
+        seerOutputSend = '\n\n' + ''.join(seerOutputSend)
     asaiString = ''
     if len(asai) > 0:
         asaiString = ' '.join(asai)
-        asaiString = '\n\n' + asaiString.replace('\n ', '\n')
-    output = input + inputWithSeerRefined + seerOutputSend + asaiString + '\n\n' + message
+        asaiString.replace('\n', ' ')
+        asaiString.strip()
+        tCnt = 0
+        spaceCnt = 0
+        asaiString = [x for x in asaiString]
+        for i in asaiString:
+            if i == ' ':
+                spaceCnt += 1
+                if spaceCnt % 4 == 0:
+                    asaiString[tCnt] = '\n'
+            tCnt += 1
+        asaiString = '\n\n' + ''.join(asaiString)
+    # output = input + inputWithSeerRefined + seerOutputSend + asaiString + '\n\n' + message
+    output = (inputWithSeerRefined.replace('/', '')).strip('\n') + inputWithSeerRefined + seerOutputSend + asaiString + '\n\n' + message
     print(output)
     return output, sFlag
 
@@ -424,6 +479,7 @@ def startProcess():
     except Exception:
         output = ''
     return jsonify({'output': output, 'success': str(success)})
+
 
 port = int(os.getenv('PORT', 8000))
 
