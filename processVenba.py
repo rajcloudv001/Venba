@@ -385,12 +385,19 @@ def process(input):
             curLst = seerOutputListTemp[-1].strip('/').split('/')
             prevLst = seerOutputListTemp[-2].strip('/').split('/')
             message = 'சீர் 6-7 '
-            if prevLst[-1] == NIRAI.strip('/') and curLst[0] not in [NER.strip('/'), NERBU.strip('/')]:
-                message = message + niraiEetruErrorMessage
-                sFlag = False
-            elif prevLst[-1] == NER.strip('/') and curLst[0] not in [NIRAI.strip('/'), NIRAIBU.strip('/')]:
-                message = message + nerEettruErrorMessage
-                sFlag = False
+
+            if len(prevLst) == 3 and prevLst[-1] == NER.strip('/') and curLst[0] not in [NER.strip('/'), NERBU.strip('/')]:
+                    message = message + nerEettruErrorMessage
+                    sFlag = False
+            elif len(prevLst) == 2:
+                if prevLst[-1] == NIRAI.strip('/') and curLst[0] not in [NER.strip('/'), NERBU.strip('/')]:
+                    message = message + niraiEetruErrorMessage
+                    sFlag = False
+                elif prevLst[-1] == NER.strip('/') and curLst[0] not in [NIRAI.strip('/'), NIRAIBU.strip('/')]:
+                    message = message + nerEettruErrorMessage
+                    sFlag = False
+
+
 
         if sFlag:
             message = successMessage
@@ -400,7 +407,7 @@ def process(input):
     if len(seerOutputSend) > 1:
         seerOutputSend = '\n\n' + seerOutputSend
     output = input + inputWithSeerRefined + seerOutputSend + '\n\n' + message
-	print(output)
+    print(output)
     return output, sFlag
 
 
