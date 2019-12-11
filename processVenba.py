@@ -221,9 +221,19 @@ def process(input):
                             if len(wordScore) >= 3:
                                 if wordScore[-3] in ['2']:
                                     if inputWithSeer[-1] in UYIR_NEDIL:
-                                        inputWithSeer.insert(-1, '/')
+                                        if inputWithSeer[-2] in UYIR_KURIL + MEI_KURIL:
+                                            if inputWithSeer[-3] in UYIR_KURIL + MEI_KURIL + VOWEL_KURIL:
+                                                inputWithSeer.insert(-1, '/')
+                                        elif inputWithSeer[-2] in VOWEL_KURIL:
+                                            if inputWithSeer[-4] in UYIR_KURIL + MEI_KURIL + VOWEL_KURIL:
+                                                inputWithSeer.insert(-1, '/')
                                     elif inputWithSeer[-1] in VOWEL_NEDIL:
-                                        inputWithSeer.insert(-2, '/')
+                                        if inputWithSeer[-3] in UYIR_KURIL + MEI_KURIL:
+                                            if inputWithSeer[-4] in UYIR_KURIL + MEI_KURIL + VOWEL_KURIL:
+                                                inputWithSeer.insert(-2, '/')
+                                        elif inputWithSeer[-3] in VOWEL_KURIL:
+                                            if inputWithSeer[-5] in UYIR_KURIL + MEI_KURIL + VOWEL_KURIL:
+                                                inputWithSeer.insert(-2, '/')
                 elif wordScore[-1] == '2':
                     if len(wordScore) >= 2:
                         if wordScore[-2] in ['4']:
@@ -422,7 +432,7 @@ def process(input):
                 if spaceCnt % 4 == 0 :
                     inputWithSeerRefined[tCnt] = '\n'
             tCnt += 1
-        inputWithSeerRefined = '\n\n' + ''.join(inputWithSeerRefined)
+        inputWithSeerRefined = '\n\n' + (''.join(inputWithSeerRefined)).replace(' ', ' | ')
     if len(seerOutputSend) > 1:
         seerOutputSend.replace('\n', ' ')
         seerOutputSend.strip()
@@ -435,7 +445,7 @@ def process(input):
                 if spaceCnt % 4 == 0:
                     seerOutputSend[tCnt] = '\n'
             tCnt += 1
-        seerOutputSend = '\n\n' + ''.join(seerOutputSend)
+        seerOutputSend = '\n\n' + (''.join(seerOutputSend)).replace(' ', ' | ')
     asaiString = ''
     if len(asai) > 0:
         asaiString = ' '.join(asai)
@@ -450,7 +460,7 @@ def process(input):
                 if spaceCnt % 4 == 0:
                     asaiString[tCnt] = '\n'
             tCnt += 1
-        asaiString = '\n\n' + ''.join(asaiString)
+        asaiString = '\n\n' + (''.join(asaiString)).replace(' ', ' | ')
     # output = input + inputWithSeerRefined + seerOutputSend + asaiString + '\n\n' + message
     output = (inputWithSeerRefined.replace('/', '')).strip('\n') + inputWithSeerRefined + seerOutputSend + asaiString + '\n\n' + message
     print(output)
