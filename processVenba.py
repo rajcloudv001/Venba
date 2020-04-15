@@ -359,7 +359,7 @@ def process(input):
     print(seerOutputListTemp)
     if invalid in asai:
         message = seerOutputListTemp[asai.index(invalid)] + ' ' + invalid + ' ' + failureMessage
-    elif seerCount not in [7, 11]:
+    elif seerCount not in [7, 11, 15]:
         message = yeluSeerIssueMessage
     elif asai[-1] not in EETRUSEER:
         message = eetruSeerMessage
@@ -419,7 +419,8 @@ def process(input):
                 message = successMessage + 'குறள் வெண்பா'
             elif seerCount == 11:
                 message = successMessage + 'சிந்தியல் வெண்பா'
-
+            elif seerCount == 15:
+                message = successMessage + 'வெண்பா'
     if len(inputWithSeerRefined) > 1:
         inputWithSeerRefined.replace('\n', ' ')
         inputWithSeerRefined.strip()
@@ -484,4 +485,5 @@ port = int(os.getenv('PORT', 8000))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port, debug=True)
+    #app.run()
 
