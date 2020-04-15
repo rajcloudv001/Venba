@@ -3,6 +3,5 @@ applications:
    random-route: true
    memory: 256M
    buildpacks:
-    - https://github.com/cloudfoundry/apt-buildpack.git
-    - https://github.com/cloudfoundry/python-buildpack.git
+    - python_buildpack
     
