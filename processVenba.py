@@ -471,14 +471,18 @@ def process(input):
 @app.route('/process', methods=['POST'])
 def startProcess():
     output = ''
-    success = False
+    success = 'False'
     input = request.form['input']
     # print(input)
     try:
         output, success = process(input)
+        if success:
+            success = 'True'
+        else:
+            success = 'False'
     except Exception:
         output = ''
-    return jsonify({'output': output, 'success': str(success)})
+    return jsonify({'output': output, 'success': success})
 
 
 port = int(os.getenv('PORT', 8000))
