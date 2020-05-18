@@ -100,7 +100,9 @@ def process(input):
     niraiNErErrorMessage = '***/நிரை நேர்/***[/***] என்று அமைய வேண்டும். திருத்தி மீண்டும் சரிபார்க்கவும்'
     nerEettruErrorMessage = 'ஈற்றுச்சீர் [***/]***/நேர் நிரை (அ) நிரைபு என்று அமைய வேண்டும். திருத்தி மீண்டும் சரிபார்க்கவும்'
     niraiEetruErrorMessage = 'ஈற்றுச்சீர் [***/]***/நிரை நேர் (அ) நேர்பு என்று அமைய வேண்டும். திருத்தி மீண்டும் சரிபார்க்கவும்'
+    oorAsaiSeerErrorMessage = 'ஓரசைச்சீர் செய்யுளின் ஈற்றுச்சீராக மட்டுமே அமைய வேண்டும். திருத்தி மீண்டும் சரிபார்க்கவும்'
 
+    
     EETRUSEER = [NAAL, MALAR, KAASU, PIRAPPU]
 
     THEMA = "தேமா"
@@ -413,7 +415,10 @@ def process(input):
                 elif prevLst[-1] == NER.strip('/') and curLst[0] not in [NIRAI.strip('/'), NIRAIBU.strip('/')]:
                     message = message + nerEettruErrorMessage
                     sFlag = False
-
+            elif len(prevLst) == 1:
+                message = message + oorAsaiSeerErrorMessage
+                sFlag = False
+                
         if sFlag:
             if seerCount == 7:
                 message = successMessage + 'குறள் வெண்பா'
